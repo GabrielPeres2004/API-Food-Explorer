@@ -4,11 +4,11 @@ module.exports = {
   development: {
     client: process.env.DB_CLIENT,
     connection: {
-      host: process.env.DB_PORT_LOCAL,
+      host: process.env.DB_HOST_LOCAL,
       port: process.env.DB_PORT_LOCAL,
       user: process.env.DB_USER_LOCAL,
       password: process.env.DB_PASSWORD_LOCAL,
-      database: process.env.food_explorer
+      database: process.env.DB_NAME_LOCAL
     },
     pool: {
       min: 2,
