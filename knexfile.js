@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   development: {
-    client: process.env.DB_CLIENT,
+    client: 'mysql2',
     connection: {
       host: process.env.DB_HOST_LOCAL,
       port: process.env.DB_PORT_LOCAL,
@@ -15,7 +15,7 @@ module.exports = {
       max: 10
     },
     production: {
-      client: process.env.DB_CLIENT,
+      client: 'mysql2',
       connection: {
         host: process.env.DB_HOST_DEPLOY,
         port: process.env.DB_PORT_DEPLOY,
