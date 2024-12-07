@@ -6,10 +6,12 @@ const addressController = new AddressController()
 
 const ensureAuthenticated = require('../middleware/ensureAuthenticated.js')
 
-addressRoutes.post("/", ensureAuthenticated, addressController.create)
-addressRoutes.delete("/", ensureAuthenticated, addressController.delete)
-addressRoutes.get("/", ensureAuthenticated, addressController.show)
-addressRoutes.put("/", ensureAuthenticated, addressController.updated)
+
+addressRoutes.use(ensureAuthenticated)
+addressRoutes.post("/", addressController.create)
+addressRoutes.delete("/", addressController.delete)
+addressRoutes.get("/", addressController.show)
+addressRoutes.put("/", addressController.updated)
 
 
 module.exports = addressRoutes

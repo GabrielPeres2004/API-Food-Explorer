@@ -60,6 +60,20 @@ class DishRepository {
     }
 
 
+    async activateDish(id) {
+        await knex('dish').where({ id }).update({
+            active: true,
+            updated_at: knex.fn.now()
+        })
+    }
+
+
+    async indexDisableDish() {
+        return await knex('dish')
+            .where('active', false)
+            .orderBy('name')
+    }
+
 }
 
 module.exports = DishRepository
