@@ -7,6 +7,7 @@ exports.up = knex => knex.schema.createTable("dish", table => {
     table.text("description").notNullable();
     table.text("category").notNullable();
     table.float("price").notNullable();
+    table.boolean("active").default(true);
 
     table.text("imageDish").default(null);
 

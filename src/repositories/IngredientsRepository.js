@@ -14,13 +14,14 @@ class IngredientsRepository {
                 "dish.user_id"
             ])
             .innerJoin("dish", "dish.id", "ingredients.dish_id")
-            .where(function () {
+            .where("dish.active", true)
+            .andWhere(function () {
                 filterIngredients.forEach(ingredient => {
                     this.orWhere("ingredients.name", "like", `%${ingredient.trim()}%`);
                 });
             })
             .orderBy('dish.name')
-            .groupBy('dish.id')
+            .groupBy('dish.id');
     }
 
     async ingredientsInsert(user_id, dish_id, ingredients) {

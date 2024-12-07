@@ -27,8 +27,9 @@ class DishRepository {
     async findByDish(name, category) {
         return await knex('dish')
             .orderBy("name")
-            .where('name', 'like', `%${name || ''}%`)
-            .where('category', 'like', `%${category || ''}%`);
+            .where('active', true)
+            .andWhere('name', 'like', `%${name || ''}%`)
+            .andWhere('category', 'like', `%${category || ''}%`);
     }
 
     async updatedDish({ name, description, price, category, id }) {

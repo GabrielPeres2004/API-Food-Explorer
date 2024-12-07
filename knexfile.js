@@ -1,8 +1,9 @@
 const path = require('path');
+require('dotenv/config')
 
 module.exports = {
   development: {
-    client: 'mysql2',
+    client: process.env.DB_CLIENT,
     connection: {
       host: process.env.DB_HOST_LOCAL,
       port: process.env.DB_PORT_LOCAL,
@@ -19,9 +20,8 @@ module.exports = {
       directory: path.resolve(__dirname, './src', './database', './knex', './migrations')
     }
   },
-
   production: {
-    client: 'mysql2',
+    client: process.env.DB_CLIENT,
     connection: {
       host: process.env.DB_HOST_DEPLOY,
       port: process.env.DB_PORT_DEPLOY,

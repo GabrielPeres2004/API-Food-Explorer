@@ -36,7 +36,7 @@ class CreateUserService {
         }
 
         if (password.length !== 6) {
-            throw new AppError("A senha nova deve conter 6 dígitos.", 400)
+            throw new AppError("A senha deve conter 6 dígitos.", 400)
         }
 
         const hashedPassword = await hash(password, 8)
