@@ -41,12 +41,12 @@ class CreateSessionsServices {
 
         delete user.password
 
-        // response.cookie("token", token, {
-        //     httpOnly: true,
-        //     sameSite: "none",
-        //     secure: true,
-        //     maxAge: 60 * 60 * 1000
-        // })
+        response.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+            maxAge: 60 * 60 * 1000
+        })
 
         return { token, user }
 
