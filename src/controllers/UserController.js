@@ -1,6 +1,7 @@
 const CreateUserService = require('../services/users/CreateUserService')
 const UpdatedUserService = require('../services/users/UpdatedUserService')
 const UserRepository = require('../repositories/UserRepository')
+const ValidatedUserService = require("../services/users/ValidatedUserService")
 
 class UserController {
     async create(request, response) {
@@ -26,6 +27,19 @@ class UserController {
 
 
         return response.json({ message: "Usuário atualizado com sucesso" })
+
+    }
+
+    async index(request, response) {
+        const user_id = request.user.id
+
+        const userRepository = new UserRepository()
+        const validatedUserService = new ValidatedUserService(userRepository)
+
+        const { checkUserExists } = await validatedUserService.execute({ user_id })
+
+        return response.status(201).json(checkUserExists);
+
 
     }
 }

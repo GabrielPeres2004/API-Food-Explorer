@@ -1,4 +1,4 @@
-const { compare } = require("bcryptjs")
+const { compare, hash } = require("bcryptjs")
 const AppError = require('../../utils/appError')
 
 
@@ -37,7 +37,6 @@ class UpdatedUserService {
 
 
         if (!password && oldPassword) {
-            console.log(oldPassword)
             throw new AppError("Insira a senha nova.", 400)
         }
 
@@ -73,7 +72,7 @@ class UpdatedUserService {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                password
+                password: user.password
             })
 
         } catch (error) {

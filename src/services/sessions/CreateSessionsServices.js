@@ -2,33 +2,32 @@ const { compare } = require('bcryptjs')
 const { sign } = require('jsonwebtoken')
 const authConfig = require('../../config/authConfig')
 const AppError = require('../../utils/appError')
-const { response } = require('express')
 
 class CreateSessionsServices {
     constructor(sessionRepository) {
         this.sessionRepository = sessionRepository
     }
 
-    async execute({ email, password }) {
+    async execute({ email, password }, response) {
 
         if (!email) {
-            throw new AppError("Insira um email."), 400;
+            throw new AppError("Insira um email.", 400)
         }
 
         if (!password) {
-            throw new AppError("Insira uma senha."), 400;
+            throw new AppError("Insira uma senha.", 400)
         }
 
         const user = await this.sessionRepository.findByEmail(email)
 
         if (!user) {
-            throw new AppError("E-mail ou senha estão incorretos."), 401;
+            throw new AppError("E-mail ou senha estão incorretos.", 401)
         }
 
         const passwordMatched = await compare(password, user.password)
 
         if (!passwordMatched) {
-            throw new AppError("E-mail ou senha estão incorretos."), 401;
+            throw new AppError("E-mail ou senha estão incorretos.", 401)
         }
 
         const { secret, expiresIn } = authConfig.JWT
