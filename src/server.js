@@ -7,13 +7,15 @@ app.use(express.json())
 
 
 const uploadsConfig = require('./config/uploadsConfig')
+
 const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 const AppError = require('./utils/appError')
 const routes = require('./routes')
 const cors = require('cors')
 
 
-app.use(cookieParser())
 
 app.use(
     cors({
