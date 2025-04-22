@@ -12,7 +12,7 @@ class ActiveDishController {
         await activateDishService.execute(id)
 
 
-        return response.json({ messsage: "Prato ativado com sucesso." })
+        return response.json({ message: "Prato ativado com sucesso." })
     }
 
 

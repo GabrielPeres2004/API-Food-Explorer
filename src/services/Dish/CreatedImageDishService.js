@@ -1,16 +1,13 @@
 const AppError = require('../../utils/appError')
 
-class UpdatedImageDishService {
+class CreatedImageDishService {
     constructor(DishRepository) {
         this.DishRepository = DishRepository
     }
 
-    async execute(id, ImageDishFileName, diskStorageDish) {
-        const dish = await this.DishRepository.findByDishWithId(id)
+    async execute(dishId, ImageDishFileName, diskStorageDish) {
+        const dish = await this.DishRepository.findByDishWithId(dishId)
 
-        if (!dish) {
-            throw new AppError("Não foi possível encontrar o prato.", 401)
-        }
 
         if (dish.imageDish) {
             await diskStorageDish.deleteFile(dish.imageDish)
@@ -19,9 +16,8 @@ class UpdatedImageDishService {
         const fileName = await diskStorageDish.saveFile(ImageDishFileName)
         dish.imageDish = fileName
 
-
         try {
-            await this.DishRepository.updatedDishWithImage(fileName, id)
+            await this.DishRepository.updatedDishWithImage(fileName, dishId)
 
         } catch (error) {
             throw new AppError("Não foi possível adicionar imagem ao prato.", 400)
@@ -33,4 +29,4 @@ class UpdatedImageDishService {
     }
 }
 
-module.exports = UpdatedImageDishService
+module.exports = CreatedImageDishService

@@ -8,7 +8,7 @@ class DeleteFavoriteService {
     }
 
     async execute(user_id, dish_id) {
-        const { favoriteDish } = await this.FavoriteRepository.findAlreadyFavorite(user_id, dish_id)
+        const favoriteDish = await this.FavoriteRepository.findAlreadyFavorite(user_id, dish_id)
 
         if (!favoriteDish) {
             throw new AppError("Não foi possível localizar o prato favorito.");

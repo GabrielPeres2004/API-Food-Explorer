@@ -37,6 +37,10 @@ class UpdateAddressSerivce {
                 .then((data) => {
                     addressFromCep = data
                 })
+                .catch((error) => {
+                    throw new AppError("Não foi possível encontrar o cep.", 400);
+                })
+
 
             if (!addressFromCep.bairro) {
                 if (!neighborhood) {
@@ -56,15 +60,17 @@ class UpdateAddressSerivce {
 
 
             try {
-                await this.AddressRepository.updateAddressWithCep({
+                const { address } = await this.AddressRepository.updateAddressWithCep({
                     city: addressFromCep.localidade,
                     neighborhood: addressFromCep.bairro || neighborhood,
                     street: addressFromCep.logradouro || street,
                     number: userAddress.number,
                     cep,
-                    complement: userAddress.complement,
+                    complement: userAddress.complement || complement,
                     id: user_id
                 })
+
+                return { address }
 
             } catch (error) {
                 throw new AppError("Não foi possível atualizar o endereço utilizando CEP.", 400)
@@ -98,7 +104,7 @@ class UpdateAddressSerivce {
             }
 
             try {
-                await this.AddressRepository
+                const { address } = await this.AddressRepository
                     .updateAddressWithoutCep({
                         city: userAddress.city,
                         neighborhood: userAddress.neighborhood,
@@ -108,6 +114,8 @@ class UpdateAddressSerivce {
                         complement: userAddress.complement,
                         id: user_id
                     })
+
+                return { address }
 
             } catch (error) {
                 throw new AppError("Não foi possível atualizar o endereço.", 400)

@@ -24,13 +24,22 @@ class DishRepository {
         return await knex('dish').where({ id }).first()
     }
 
-    async findByDish(name, category) {
-        return await knex('dish')
-            .orderBy("name")
-            .where('active', true)
-            .andWhere('name', 'like', `%${name || ''}%`)
-            .andWhere('category', 'like', `%${category || ''}%`);
+    async findByDishWithUser_Id(user_id) {
+        return await knex('dish').where({ user_id }).first()
     }
+
+    async findByDish(name, userRole) {
+        let query = knex('dish')
+            .orderBy("name")
+            .andWhereRaw('LOWER(name) LIKE ?', [`%${(name || '').toLowerCase()}%`]);
+
+        if (userRole !== 'admin') {
+            query = query.where('active', true);
+        }
+
+        return await query;
+    }
+
 
     async updatedDish({ name, description, price, category, id }) {
 

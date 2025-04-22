@@ -14,10 +14,12 @@ class AddressController {
         const addressRepository = new AddressRepository()
         const createAddressService = new CreateAddressService(addressRepository)
 
-        await createAddressService.execute(city, neighborhood, street, number, cep, complement, user_id)
+        const { address } = await createAddressService.execute(city, neighborhood, street, number, cep, complement, user_id)
 
-
-        return response.json({ message: "Endereço criado com sucesso" })
+        return response.json({
+            message: "Endereço criado com sucesso",
+            address
+        })
     }
 
     async delete(request, response) {
@@ -52,9 +54,12 @@ class AddressController {
         const addressRepository = new AddressRepository()
         const updateAddressService = new UpdateAddressService(addressRepository)
 
-        await updateAddressService.execute(city, neighborhood, street, number, cep, complement, user_id)
+        const { address } = await updateAddressService.execute(city, neighborhood, street, number, cep, complement, user_id)
 
-        return response.json({ message: "Endereço atualizado com sucesso" })
+        return response.json({
+            message: "Endereço atualizado com sucesso",
+            address
+        })
     }
 
 }

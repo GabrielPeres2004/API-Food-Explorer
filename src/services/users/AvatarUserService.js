@@ -21,7 +21,7 @@ class AvatarUserService {
 
         await this.UserRepository.updatedUserWithAvatar(fileName, user_id)
 
-        return
+        return { user }
     }
 }
 

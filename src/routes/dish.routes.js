@@ -23,16 +23,19 @@ const userRoleVerify = require('../middleware/UserRoleVerify.js')
 dishRoutes.use(ensureAuthenticated)
 
 dishRoutes.get('/dishDisable', userRoleVerify("admin"), disabledDishController.index)
-dishRoutes.put('/disable/:id', userRoleVerify("admin"), disabledDishController.update)
+dishRoutes.patch('/disable/:id', userRoleVerify("admin"), disabledDishController.update)
 
-dishRoutes.put('/active/:id', userRoleVerify("admin"), activeDishController.update)
+dishRoutes.patch('/active/:id', userRoleVerify("admin"), activeDishController.update)
 
-dishRoutes.post('/', userRoleVerify("admin"), dishController.create)
+dishRoutes.get('/', dishController.index)
+dishRoutes.post('/', userRoleVerify("admin"), upload.single("imageDish"), dishController.create)
 dishRoutes.delete('/:id', userRoleVerify("admin"), dishController.delete)
 dishRoutes.put('/:id', userRoleVerify("admin"), dishController.update)
-dishRoutes.patch('/imageDish/:id', userRoleVerify("admin"), upload.single("imageDish"), dishImageController.update)
-dishRoutes.get('/', dishController.index)
+
 dishRoutes.get('/:id', dishController.show)
+
+dishRoutes.patch('/imageDish/:id', userRoleVerify("admin"), upload.single("imageDish"), dishImageController.update)
+dishRoutes.post('/imageDish', userRoleVerify("admin"), upload.single("imageDish"), dishImageController.create)
 
 
 module.exports = dishRoutes

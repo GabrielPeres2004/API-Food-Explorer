@@ -15,7 +15,7 @@ class IndexFavoriteService {
             throw new AppError("Não foi possível mostrar o prato favorito.");
         }
 
-        return { findFavoritesWithUserId }
+        return findFavoritesWithUserId
 
     }
 }

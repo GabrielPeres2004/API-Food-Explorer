@@ -15,11 +15,22 @@ class OrderItemsRepository {
     }
 
     async findCustomerItemsOrder(user_id) {
-        return await knex('orderItems').where({ user_id })
+        return await knex('orderItems')
+            .where('orderItems.user_id', user_id)
+            .join('dish', 'orderItems.dish_id', 'dish.id')
+            .select(
+                'orderItems.*',
+                'dish.name as dish_name'
+            )
     }
 
     async findAllItemsOrder() {
         return await knex('orderItems')
+            .join('dish', 'orderItems.dish_id', 'dish.id')
+            .select(
+                'orderItems.*',
+                'dish.name as dish_name'
+            )
     }
 
     async findByItemsOrderWithOrderId(id) {

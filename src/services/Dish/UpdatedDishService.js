@@ -9,14 +9,14 @@ class UpdatedDishService {
     async execute(name, description, price, category, ingredients, user_id, id) {
 
         const dish = await this.DishRepository.findByDishWithId(id)
-        const { role } = request.user
 
-        if (role === 'customer') {
-            throw new AppError("Você não tem permissão para isso.", 401)
-        }
 
         if (!dish) {
             throw new AppError("Não foi possível encontrar o prato.", 401);
+        }
+
+        if (ingredients.length === 0) {
+            throw new AppError("Insira os ingredientes.", 400);
         }
 
         const dish_id = dish.id

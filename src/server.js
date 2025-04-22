@@ -29,7 +29,7 @@ app.use(
 
 
 app.use('/files', express.static(uploadsConfig.UPLOADS_FOLDER))
-app.use('/files_image', express.static(uploadsConfig.UPLOADS_FOLDER_DISH))
+app.use('/files_image_dish', express.static(uploadsConfig.UPLOADS_FOLDER_DISH))
 
 app.use(routes)
 

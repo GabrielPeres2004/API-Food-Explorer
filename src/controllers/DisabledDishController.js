@@ -24,7 +24,7 @@ class DisabledDishController {
         })
 
 
-        return response.json({ messsage: "Prato desativado com sucesso." })
+        return response.json({ message: "Prato desativado com sucesso." })
     }
 
 

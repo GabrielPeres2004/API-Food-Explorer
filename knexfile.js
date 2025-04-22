@@ -1,5 +1,6 @@
 const path = require('path');
 require('dotenv/config')
+console.log("Ambiente:", process.env.NODE_ENV);
 
 module.exports = {
   development: {

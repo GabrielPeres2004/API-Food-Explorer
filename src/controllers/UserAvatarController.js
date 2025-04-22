@@ -13,10 +13,9 @@ class UserAvatarController {
         const userRepository = new UserRepository()
         const avatarUserService = new AvatarUserService(userRepository)
 
-        await avatarUserService.execute(user_id, AvatarFileName, diskStorage)
+        const { user } = await avatarUserService.execute(user_id, AvatarFileName, diskStorage)
 
-
-        return response.json()
+        return response.json({ user })
 
     }
 

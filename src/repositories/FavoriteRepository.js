@@ -14,7 +14,7 @@ class FavoriteRepository {
             .where({ user_id, dish_id })
             .first();
 
-        return { favoriteDish }
+        return favoriteDish
 
     }
 

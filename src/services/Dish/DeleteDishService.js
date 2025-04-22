@@ -6,13 +6,14 @@ class DeleteDishService {
     }
 
     async execute(id) {
-        const { role } = request.user
+        const dish = await this.DishRepository.findByDishWithId(id)
 
-        if (role === 'customer') {
-            throw new AppError("Você não tem permissão para isso.", 401)
+        if (!dish) {
+            throw new AppError("Não foi possível encontrar o prato.", 401);
         }
 
         try {
+
             await this.DishRepository.deleteDish(id)
 
             return

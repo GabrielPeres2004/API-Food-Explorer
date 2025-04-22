@@ -8,9 +8,12 @@ class CreateOrderService {
     }
 
     async execute(paymentType, deliveryType, orderCompleted, payment, numberInstallments, OrderItems, user_id) {
-
         if (!user_id) {
             throw new AppError("Apenas usuários autenticados", 401);
+        }
+
+        if (!OrderItems) {
+            throw new AppError("Primeiro adicione itens para fazer o pedido");
         }
 
         if (!paymentType) {
@@ -29,12 +32,13 @@ class CreateOrderService {
             throw new AppError("O número de parcelas mínimas é 1");
         }
 
-        if (!OrderItems) {
-            throw new AppError("Primeiro adicione itens para fazer o pedido");
-        }
 
-        const dishIds = OrderItems.map(item => item.dish_id);
-        const dishes = await this.DishRepository.findDishToOrder(dishIds)
+        const formattedItems = OrderItems.map(item => ({
+            dish_id: item.id,
+            count: item.quantity
+        }));
+
+        const dishes = await this.DishRepository.findDishToOrder(formattedItems)
 
         const paymentTotal = OrderItems.reduce((total, item) => {
             const dishSum = dishes.find(dish => dish.id === item.dish_id);
@@ -55,7 +59,7 @@ class CreateOrderService {
                 user_id
             })
 
-            await this.OrderItemsRepository.create(order_id, user_id, OrderItems)
+            await this.OrderItemsRepository.create(order_id, user_id, formattedItems)
 
 
         } catch (error) {

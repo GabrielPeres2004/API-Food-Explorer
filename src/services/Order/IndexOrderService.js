@@ -16,6 +16,7 @@ class IndexOrderService {
             itemsOrder = await this.OrderItemsRepository.findCustomerItemsOrder(user_id)
 
         }
+
         else if (role === "admin") {
             orders = await this.OrderRepository.findAllOrder()
             itemsOrder = await this.OrderItemsRepository.findAllItemsOrder()

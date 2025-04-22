@@ -21,7 +21,7 @@ class CreateFavoriteService {
             throw new AppError("O prato informado não existe.", 404);
         }
 
-        const { alreadyFavorite } = await this.FavoriteRepository.findAlreadyFavorite(user_id, dish_id)
+        const alreadyFavorite = await this.FavoriteRepository.findAlreadyFavorite(user_id, dish_id)
 
         if (alreadyFavorite) {
             throw new AppError("Este prato já está na sua lista de favoritos.", 400);

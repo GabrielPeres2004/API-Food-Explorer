@@ -45,7 +45,7 @@ class FavoriteController {
         const favoriteRepository = new FavoriteRepository()
         const indexFavoriteService = new IndexFavoriteService(favoriteRepository)
 
-        const { findFavoritesWithUserId } = await indexFavoriteService.execute(user_id)
+        const findFavoritesWithUserId = await indexFavoriteService.execute(user_id)
 
 
         return response.json(findFavoritesWithUserId)

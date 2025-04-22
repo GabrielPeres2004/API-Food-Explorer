@@ -7,6 +7,7 @@ const UpdatedDishService = require('../services/Dish/UpdatedDishService')
 const DishRepository = require('../repositories/DishRepository')
 const IngredientsRepository = require("../repositories/IngredientsRepository")
 
+
 class DishController {
     async create(request, response) {
         const { name, description, price, category, ingredients } = request.body
@@ -17,10 +18,14 @@ class DishController {
 
         const createDishService = new CreateDishService(dishRepository, ingredientsRepository)
 
-        await createDishService.execute({ name, description, price, category, ingredients, user_id })
+        const { dish_id } = await createDishService.execute({
+            name, description, price, category, ingredients, user_id
+        })
 
-
-        return response.json({ message: "Prato criado com sucesso" })
+        return response.json({
+            message: "Prato criado com sucesso",
+            dish_id
+        })
 
     }
 
@@ -52,13 +57,14 @@ class DishController {
     }
 
     async index(request, response) {
-        const { name, ingredients, category } = request.query
+        const { name } = request.query
+        const user = request.user.role
 
         const dishRepository = new DishRepository()
         const ingredientsRepository = new IngredientsRepository()
         const indexDishService = new IndexDishService(dishRepository, ingredientsRepository)
 
-        const { dishWithIngredients } = await indexDishService.execute(name, ingredients, category)
+        const { dishWithIngredients } = await indexDishService.execute(name, user)
 
         return response.json(dishWithIngredients)
     }

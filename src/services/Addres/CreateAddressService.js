@@ -9,8 +9,8 @@ class CreateAddresService {
     async execute(city, neighborhood, street, number, cep, complement, user_id) {
         let addressFromCep
 
-        if (!number) {
-            throw new AppError("Digite o número de sua residencia", 400)
+        if (!cep) {
+            throw new AppError("Digite o seu cep.", 400);
         }
 
         if (cep) {
@@ -34,38 +34,29 @@ class CreateAddresService {
                 }
             }
 
+            if (!number) {
+                throw new AppError("Digite o número de sua residencia", 400)
+            }
+
             await this.AddressRepository.deleteAddress(user_id)
 
-            await this.AddressRepository.createAddressWithCep({
+            const { address } = await this.AddressRepository.createAddressWithCep({
                 city: addressFromCep.localidade,
                 neighborhood: addressFromCep.bairro || neighborhood,
                 street: addressFromCep.logradouro || street,
                 number,
                 cep,
                 complement,
-                user_id
+                id: user_id
             })
+
+            return { address }
+
         }
-        else {
 
-            if (!city) {
-                throw new AppError("Digite a cidade.", 400)
-            }
-
-            if (!neighborhood) {
-                throw new AppError("Digite o bairro.", 400)
-            }
-
-            if (!street) {
-                throw new AppError("Digite a rua.", 400)
-            }
-
-            await this.AddressRepository.deleteAddress(user_id)
-
-            await this.AddressRepository.createAddressWithoutCep(city, neighborhood, street, number, complement, user_id)
-        }
 
     }
+
 }
 
 module.exports = CreateAddresService

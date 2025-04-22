@@ -3,19 +3,8 @@ const knex = require('../database/knex')
 class AddressRepository {
 
 
-    async createAddressWithoutCep(city, neighborhood, street, number, complement, id) {
-        await knex('address').insert({
-            city,
-            neighborhood,
-            street,
-            number,
-            complement,
-            user_id: id
-        }).where({ user_id: id })
-
-    }
-
     async createAddressWithCep({ city, neighborhood, street, number, cep, complement, id }) {
+        let address
         await knex('address').insert({
             city,
             neighborhood,
@@ -24,7 +13,19 @@ class AddressRepository {
             cep,
             complement,
             user_id: id
-        }).where({ user_id: id })
+        })
+
+        address = {
+            city,
+            neighborhood,
+            street,
+            number,
+            cep,
+            complement,
+            user_id: id
+        }
+
+        return { address }
 
     }
 
@@ -40,7 +41,8 @@ class AddressRepository {
     }
 
     async updateAddressWithCep({ city, neighborhood, street, number, cep, complement, id }) {
-        return await knex('address').update({
+        let address
+        await knex('address').update({
             city,
             neighborhood,
             street,
@@ -51,11 +53,25 @@ class AddressRepository {
             updated_at: knex.fn.now()
         }).where({ user_id: id })
 
+        address = {
+            city,
+            neighborhood,
+            street,
+            number,
+            cep,
+            complement,
+            user_id: id
+        }
+
+        return { address }
+
+
     }
 
     async updateAddressWithoutCep({ city, neighborhood, street, number, cep, complement, id }) {
+        let address
 
-        return await knex('address')
+        await knex('address')
             .update({
                 city,
                 neighborhood,
@@ -68,6 +84,18 @@ class AddressRepository {
 
             })
             .where({ user_id: id })
+
+        address = {
+            city,
+            neighborhood,
+            street,
+            number,
+            cep,
+            complement,
+            user_id: id
+        }
+
+        return { address }
     }
 }
 
