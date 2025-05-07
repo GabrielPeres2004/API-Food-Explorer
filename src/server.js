@@ -5,7 +5,6 @@ const app = express()
 
 app.use(express.json())
 
-
 const uploadsConfig = require('./config/uploadsConfig')
 
 const cookieParser = require('cookie-parser')
